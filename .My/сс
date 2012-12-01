@@ -1,0 +1,16 @@
+админка сайт http://lider-market.ru/admin
+kizlik
+256Kizlik321
+
+База
+http://service.1777.tk/administration/mysql/
+
+$dbhost = "mysql-1";или "mysql-7819"
+$dbuname = "us7819b";
+$dbpass = "MGgCyvzgwVhVeNJ";
+$dbname = "db7819b";
+
+FTP
+ftp.1777.tk
+us7819c
+tyHHitsZ

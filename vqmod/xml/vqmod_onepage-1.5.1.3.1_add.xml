@@ -1,0 +1,12 @@
+<modification>
+	<id>Одностраничная покупка</id>
+	<version>1.5.1.3.1</version>
+	<vqmver>1.0.8</vqmver>
+	<author>opencart.ws</author>
+        <file name="catalog/controller/checkout/register.php">
+        	<operation>
+            	<search position="after" offset="1"><![CDATA[if (!$this->config->get('config_customer_approval')) {]]></search>
+                <add><![CDATA[$this->session->data['payment_address_id'] = $this->customer->getAddressId();$this->session->data['shipping_address_id'] = $this->customer->getAddressId();]]></add>
+            </operation>
+        </file>
+</modification>

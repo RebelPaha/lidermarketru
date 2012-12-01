@@ -1,0 +1,109 @@
+<modification>
+	<id>Одностраничная покупка</id>
+	<version>1.5.x</version>
+	<vqmver>1.0.8</vqmver>
+	<author>opencart.ws</author>
+        <file name="catalog/controller/checkout/login.php">
+           <!--  --><operation trim="true">
+              <search position="replace"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/login.tpl')) {]]></search>
+                  <add><![CDATA[
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/onepage/login.tpl')) {
+                        ]]></add>
+           </operation>
+           <operation trim="true">
+               <search position="replace"><![CDATA[$this->template = $this->config->get('config_template') . '/template/checkout/login.tpl';]]></search>
+               <add><![CDATA[$this->template = $this->config->get('config_template') . '/template/onepage/login.tpl';]]></add>
+           </operation>
+           <operation trim="true">
+               <search position="replace"><![CDATA[$this->template = 'default/template/checkout/login.tpl';]]></search>
+               <add><![CDATA[$this->template = 'default/template/onepage/login.tpl';]]></add>
+           </operation>
+        </file>
+        <file name="catalog/controller/checkout/checkout.php">
+        	<operation>
+            	<search position="after"><![CDATA[public function index() {]]></search>
+                <add><![CDATA[$this->redirect($this->url->link('checkout/onepage'));]]></add>
+            </operation>
+        </file>
+        <file name="catalog/controller/checkout/address.php">
+        	<operation>
+            	<search position="after" offset="3"><![CDATA[if (isset($this->session->data['payment_address_id'])) {]]></search>
+                <add><![CDATA[$this->session->data['payment_address_id']=$this->data['address_id'];]]></add>
+            </operation>
+		    <operation>
+                <search position="after" offset="3"><![CDATA[if (isset($this->session->data['shipping_address_id'])) {]]></search>
+                <add><![CDATA[$this->session->data['shipping_address_id']=$this->data['address_id'];]]></add>
+            </operation>
+            <operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['shipping_methods']);]]></search>
+                <add><![CDATA[//unset($this->session->data['shipping_methods']);]]></add>
+            </operation>
+			<operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['shipping_method']);]]></search>
+                <add><![CDATA[//unset($this->session->data['shipping_method']);]]></add>
+            </operation>
+            <operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['payment_methods']);]]></search>
+                <add><![CDATA[//unset($this->session->data['payment_methods']);]]></add>
+            </operation>
+            <operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['payment_method']);]]></search>
+                <add><![CDATA[//unset($this->session->data['payment_method']);]]></add>
+            </operation>
+        </file>
+        <file name="catalog/controller/checkout/guest.php">
+        	<operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['shipping_methods']);]]></search>
+                <add><![CDATA[//unset($this->session->data['shipping_methods']);]]></add>
+            </operation>
+			<operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['shipping_method']);]]></search>
+                <add><![CDATA[//unset($this->session->data['shipping_method']);]]></add>
+            </operation>
+            <operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['payment_methods']);]]></search>
+                <add><![CDATA[//unset($this->session->data['payment_methods']);]]></add>
+            </operation>
+            <operation>
+            	<search position="replace"><![CDATA[unset($this->session->data['payment_method']);]]></search>
+                <add><![CDATA[//unset($this->session->data['payment_method']);]]></add>
+            </operation>
+        </file>
+        <file name="catalog/controller/checkout/payment.php">
+        	<operation>
+            	<search position="before"><![CDATA[if (!isset($this->session->data['payment_methods'])) {]]></search>
+                <add><![CDATA[unset($this->session->data['payment_methods']);unset($this->session->data['payment_method']);]]></add>
+            </operation>
+
+            <operation>
+            	<search position="replace"><![CDATA[if ($this->customer->isLogged()) {]]></search>
+                <add><![CDATA[if ($this->customer->isLogged() && isset($this->session->data['payment_address_id'])) {]]></add>
+            </operation>
+        </file>
+        <file name="catalog/controller/checkout/shipping.php">
+        	<operation>
+            	<search position="before"><![CDATA[if (!isset($this->session->data['shipping_methods'])) {]]></search>
+                <add><![CDATA[unset($this->session->data['shipping_methods']);unset($this->session->data['shipping_method']);]]></add>
+            </operation>
+            <operation>
+            	<search position="replace"><![CDATA[if ($this->customer->isLogged()) {]]></search>
+                <add><![CDATA[if ($this->customer->isLogged() && isset($this->session->data['shipping_address_id'])) {]]></add>
+            </operation>
+        </file>
+        <file name="catalog/controller/checkout/register.php">
+            <operation>
+            	<search position="before"><![CDATA[unset($this->session->data['guest']);]]></search>
+                <add><![CDATA[/*]]></add>
+            </operation>
+        	<operation>
+            	<search position="after"><![CDATA[unset($this->session->data['payment_method']);]]></search>
+                <add><![CDATA[*/]]></add>
+            </operation>
+        </file>
+        <file name="catalog/view/theme/shoppica/template/common/cart.tpl">
+        	<operation>
+            	<search position="replace"><![CDATA[if ($option['type'] != 'textarea'):]]></search>
+                <add><![CDATA[if (!isset($option['type']) || $option['type'] != 'textarea'):]]></add>
+            </operation>
+        </file>
+</modification>
